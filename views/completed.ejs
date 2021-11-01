@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Hidden Gem</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Hidden Gem</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                    <% if(user != undefined){ %>
+                        <p>Welcome, <span id='barista'><%= user.local.first %></span>!</p>
+                      <% } else{ %>
+                        <p>Welcome, guest!</p>
+                      <% } %>
+                    <li>
+                      <a href="/">Place an Order</a>
+                    </li>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Orders</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                              <a href="#orders">In Progress
+                                <% progress = 0 %>
+                                <% for(var i=0; i<orders.length; i++) {%>
+                                  <% if(orders[i].status === 'in progress') {%>
+                                    <% progress+= 1 %>
+                                  <% } %>
+                                <% } %>
+                                <span class="badge badge-light"><%= progress %></span>
+                              </a>
+                            </li>
+                            <li>
+                              <a href="#completed">Completed</a>                        
+                            </li>
+                        </ul>
+                    </li>
+            </ul>   
+
+            <ul class="list-unstyled CTAs">
+              <% if(user != undefined) { %>
+                <li>
+                    <a href="/logout" class="download">Logout</a>
+                </li>
+              <%} else {%>
+                <li>
+                  <a href="/login" class="download">Login</a>
+                </li>
+                <li>
+                    <a href="/signup" class="download">Signup</a>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+    </div>
+            
+    <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+              <div class="container-fluid">
+
+                  <button type="button" id="sidebarCollapse" class="btn btn-info">
+                      <i class="fas fa-align-left"></i>
+                      <span>Toggle Sidebar</span>
+                  </button>
+                  <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                      <i class="fas fa-align-justify"></i>
+                  </button>
+              </div>
+          </nav>
+
+        <section id='orders'>
+          <ul class="list-group">
+            <li class="font-weight-bold list-group-item disabled">Orders</li>
+            <% for(var i=0; i<orders.length; i++) {%>
+              <% if(orders[i].status != 'finished') {%>
+                <li class="list-group-item">
+                <div class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+                  <!-- Basic Plan -->
+                  <div class="row align-items-center">
+                    <div class="col-12 col-md-4">
+                      <h4 class="pt-3 text-170 text-600 text-primary-d1 letter-spacing">
+                        <%= orders[i].customer %>
+                      </h4>
+
+                      <div class="text-secondary-d1 text-120">
+                        <span class="ml-n15 align-text-bottom"><%= orders[i]._id %></span> 
+                      </div>              
+                    </div>
+          
+                    <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0">
+                      <li>
+                        <span class="text-110 font-weight-bold"><%= orders[i].item %></span>
+                      </li>
+
+                      <li class="mt-25">
+                        <% if(orders[i].sugar != null) {%>
+                          <span class="text-110"><%= orders[i].sugar %></span>
+                        <% } else { %>
+                          <span class="text-110"></span>
+                        <% } %>
+                      </li>
+          
+                      <li class="mt-25">
+                        <% if(orders[i].cream != null) {%>
+                          <span class="text-110"><%= orders[i].cream %></span>
+                        <% } else { %>
+                          <span class="text-110"></span>
+                        <% } %>
+                      </li>
+
+                      <li class="mt-25">
+                        <% if(orders[i].half != null) {%>
+                          <span class="text-110"><%= orders[i].half %></span>
+                        <% } else { %>
+                          <span class="text-110"></span>
+                        <% } %>
+                      </li>
+                    </ul>
+          
+                    <div class="col-12 col-md-4 text-center">
+                      <% if(user != undefined){ %>
+                        <span class="status f-n-hover btn btn-info btn-raised px-4 py-25 w-75 text-600"><%= orders[i].status %></span>
+                      <% } else {%>
+                        <span class="status f-n-hover btn btn-info btn-raised px-4 py-25 w-75 text-600">Login in to track status</span>
+                      <% } %>
+                    </div>
+                  </div>
+                </div>
+                </li>
+              <% } %>
+            <% } %>
+          </ul>
+        </section>
+
+        <div class='line'></div>
+
+        <section id='completed'>
+          <% if(user != undefined){ %>
+            <ul class="list-group">
+              <li class="font-weight-bold list-group-item disabled">Completed Orders</li>
+              <% for(var i=0; i<orders.length; i++) {%>
+                <% if(orders[i].status === 'finished') {%>
+                  <li class="list-group-item">
+                    <div class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+                      <!-- Basic Plan -->
+                      <div class="row align-items-center">
+                        <div class="col-12 col-md-4">
+                          <h4 class="pt-3 text-170 text-600 text-primary-d1 letter-spacing">
+                            <%= orders[i].customer %>
+                          </h4>
+
+                          <div class="text-secondary-d1 text-120">
+                            <span class="ml-n15 align-text-bottom"><%= orders[i]._id %></span> 
+                          </div>              
+                        </div>
+              
+                        <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 text-90 text-left my-4 my-md-0">
+                          <li>
+                            <span class="text-110 font-weight-bold"><%= orders[i].item %></span>
+                          </li>
+
+                          <li class="mt-25">
+                            <% if(orders[i].sugar != null) {%>
+                              <span class="text-110"><%= orders[i].sugar %></span>
+                            <% } else { %>
+                              <span class="text-110"></span>
+                            <% } %>
+                          </li>
+              
+                          <li class="mt-25">
+                            <% if(orders[i].cream != null) {%>
+                              <span class="text-110"><%= orders[i].cream %></span>
+                            <% } else { %>
+                              <span class="text-110"></span>
+                            <% } %>
+                          </li>
+
+                          <li class="mt-25">
+                            <% if(orders[i].half != null) {%>
+                              <span class="text-110"><%= orders[i].half %></span>
+                            <% } else { %>
+                              <span class="text-110"></span>
+                            <% } %>
+                          </li>
+                        </ul>
+              
+                        <div class="col-12 col-md-4 text-center">
+                          <span class="status f-n-hover btn btn-info btn-raised px-4 py-25 w-75 text-600"><%= orders[i].status %> by <%= orders[i].barista %></span>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                <% } %>
+              <% } %>
+            </ul>
+
+            <% } else { %>
+              <ul class="list-group">
+                <li class="list-group-item disabled">Completed Orders</li>
+                <li class="list-group-item">
+                  <div class="font-weight-bold d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+                    Only authorized users can see completed orders. Please login to view.           
+                  </div>
+                </li>
+              </ul>
+            <% } %>
+            </section>
+    </div>
+    
+    <script src="main.js"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+</body>
+
+</html>
