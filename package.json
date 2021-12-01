@@ -1,7 +1,7 @@
 {
-  "name": "fullstack-login",
+  "name": "fullstack-barista",
   "version": "1.0.0",
-  "description": "Todo List",
+  "description": "Ordering system for Cafe Secret",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
